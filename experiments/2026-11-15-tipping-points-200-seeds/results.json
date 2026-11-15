@@ -1,0 +1,758 @@
+{
+ "method": "see analyze.mjs",
+ "offsets": [
+  -8,
+  -7,
+  -6,
+  -5,
+  -4,
+  -3,
+  -2,
+  -1,
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8
+ ],
+ "cells": {
+  "1x | as published | 0.1": {
+   "runs": 3400,
+   "seeds": 200,
+   "undecided": 0,
+   "followedDaysMax": 6000,
+   "tippingPointIfUndecidedTakeOver": -4.23,
+   "tookOverByOffset": [
+    17,
+    33,
+    55,
+    74,
+    100,
+    133,
+    159,
+    173,
+    190,
+    197,
+    198,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200
+   ],
+   "runsByOffset": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200
+   ],
+   "tippingPoint": -4.23,
+   "ci95": [
+    -4.42,
+    -4.07
+   ],
+   "slopePerPoint": 0.65,
+   "widthPoints10to90": 6.72,
+   "interpolatedCrossing": -4,
+   "medianDaysToDecide": 437
+  },
+  "1x | as published | 0.25": {
+   "runs": 3400,
+   "seeds": 200,
+   "undecided": 0,
+   "followedDaysMax": 6000,
+   "tippingPointIfUndecidedTakeOver": -4.73,
+   "tookOverByOffset": [
+    19,
+    31,
+    53,
+    94,
+    118,
+    159,
+    174,
+    191,
+    194,
+    199,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200
+   ],
+   "runsByOffset": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200
+   ],
+   "tippingPoint": -4.73,
+   "ci95": [
+    -4.92,
+    -4.55
+   ],
+   "slopePerPoint": 0.76,
+   "widthPoints10to90": 5.75,
+   "interpolatedCrossing": -4.75,
+   "medianDaysToDecide": 380
+  },
+  "1x | as published | 0.4": {
+   "runs": 3400,
+   "seeds": 200,
+   "undecided": 199,
+   "followedDaysMax": 6000,
+   "tippingPointIfUndecidedTakeOver": -2.88,
+   "tookOverByOffset": [
+    1,
+    2,
+    2,
+    15,
+    29,
+    55,
+    99,
+    138,
+    168,
+    181,
+    190,
+    199,
+    199,
+    198,
+    200,
+    200,
+    200
+   ],
+   "runsByOffset": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200
+   ],
+   "tippingPoint": -1.88,
+   "ci95": [
+    -2.06,
+    -1.69
+   ],
+   "slopePerPoint": 0.85,
+   "widthPoints10to90": 5.15,
+   "interpolatedCrossing": -1.97,
+   "medianDaysToDecide": 293
+  },
+  "1x | shared crowding | 0.1": {
+   "runs": 3400,
+   "seeds": 200,
+   "undecided": 0,
+   "followedDaysMax": 6000,
+   "tippingPointIfUndecidedTakeOver": 1.54,
+   "tookOverByOffset": [
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    10,
+    22,
+    46,
+    85,
+    115,
+    155,
+    174,
+    187,
+    199,
+    198,
+    199
+   ],
+   "runsByOffset": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200
+   ],
+   "tippingPoint": 1.54,
+   "ci95": [
+    1.38,
+    1.71
+   ],
+   "slopePerPoint": 0.85,
+   "widthPoints10to90": 5.14,
+   "interpolatedCrossing": 1.5,
+   "medianDaysToDecide": 461
+  },
+  "1x | shared crowding | 0.25": {
+   "runs": 3400,
+   "seeds": 200,
+   "undecided": 0,
+   "followedDaysMax": 1500,
+   "tippingPointIfUndecidedTakeOver": 3.31,
+   "tookOverByOffset": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    3,
+    10,
+    22,
+    55,
+    101,
+    130,
+    157,
+    176,
+    190,
+    196
+   ],
+   "runsByOffset": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200
+   ],
+   "tippingPoint": 3.31,
+   "ci95": [
+    3.14,
+    3.49
+   ],
+   "slopePerPoint": 0.85,
+   "widthPoints10to90": 5.17,
+   "interpolatedCrossing": 2.98,
+   "medianDaysToDecide": 386
+  },
+  "1x | shared crowding | 0.4": {
+   "runs": 3400,
+   "seeds": 200,
+   "undecided": 0,
+   "followedDaysMax": 1500,
+   "tippingPointIfUndecidedTakeOver": 4.8,
+   "tookOverByOffset": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    5,
+    36,
+    46,
+    80,
+    100,
+    146,
+    163,
+    179
+   ],
+   "runsByOffset": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200
+   ],
+   "tippingPoint": 4.8,
+   "ci95": [
+    4.6,
+    5
+   ],
+   "slopePerPoint": 0.74,
+   "widthPoints10to90": 5.91,
+   "interpolatedCrossing": 5,
+   "medianDaysToDecide": 302
+  },
+  "1x | random container | 0.1": {
+   "runs": 3400,
+   "seeds": 200,
+   "undecided": 0,
+   "followedDaysMax": 6000,
+   "tippingPointIfUndecidedTakeOver": -0.38,
+   "tookOverByOffset": [
+    0,
+    0,
+    0,
+    3,
+    4,
+    17,
+    48,
+    68,
+    108,
+    159,
+    178,
+    191,
+    199,
+    200,
+    200,
+    200,
+    200
+   ],
+   "runsByOffset": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200
+   ],
+   "tippingPoint": -0.38,
+   "ci95": [
+    -0.53,
+    -0.23
+   ],
+   "slopePerPoint": 0.95,
+   "widthPoints10to90": 4.63,
+   "interpolatedCrossing": -0.2,
+   "medianDaysToDecide": 384
+  },
+  "1x | random container | 0.25": {
+   "runs": 3400,
+   "seeds": 200,
+   "undecided": 0,
+   "followedDaysMax": 1500,
+   "tippingPointIfUndecidedTakeOver": -1.03,
+   "tookOverByOffset": [
+    0,
+    0,
+    0,
+    3,
+    8,
+    19,
+    53,
+    106,
+    149,
+    175,
+    193,
+    199,
+    200,
+    200,
+    200,
+    200,
+    200
+   ],
+   "runsByOffset": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200
+   ],
+   "tippingPoint": -1.03,
+   "ci95": [
+    -1.2,
+    -0.86
+   ],
+   "slopePerPoint": 1.1,
+   "widthPoints10to90": 3.98,
+   "interpolatedCrossing": -1.11,
+   "medianDaysToDecide": 317
+  },
+  "1x | random container | 0.4": {
+   "runs": 3400,
+   "seeds": 200,
+   "undecided": 0,
+   "followedDaysMax": 1500,
+   "tippingPointIfUndecidedTakeOver": -1.36,
+   "tookOverByOffset": [
+    0,
+    1,
+    0,
+    4,
+    14,
+    29,
+    68,
+    116,
+    151,
+    191,
+    198,
+    200,
+    199,
+    200,
+    200,
+    200,
+    200
+   ],
+   "runsByOffset": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200
+   ],
+   "tippingPoint": -1.36,
+   "ci95": [
+    -1.52,
+    -1.19
+   ],
+   "slopePerPoint": 1.1,
+   "widthPoints10to90": 4,
+   "interpolatedCrossing": -1.33,
+   "medianDaysToDecide": 242
+  },
+  "1x | scattered eggs | 0.1": {
+   "runs": 3400,
+   "seeds": 200,
+   "undecided": 0,
+   "followedDaysMax": 6000,
+   "tippingPointIfUndecidedTakeOver": 0.05,
+   "tookOverByOffset": [
+    0,
+    0,
+    0,
+    0,
+    1,
+    6,
+    27,
+    58,
+    102,
+    139,
+    173,
+    188,
+    197,
+    200,
+    200,
+    200,
+    200
+   ],
+   "runsByOffset": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200
+   ],
+   "tippingPoint": 0.05,
+   "ci95": [
+    -0.1,
+    0.19
+   ],
+   "slopePerPoint": 1.02,
+   "widthPoints10to90": 4.29,
+   "interpolatedCrossing": -0.05,
+   "medianDaysToDecide": 378
+  },
+  "1x | scattered eggs | 0.25": {
+   "runs": 3400,
+   "seeds": 200,
+   "undecided": 0,
+   "followedDaysMax": 1500,
+   "tippingPointIfUndecidedTakeOver": -0.12,
+   "tookOverByOffset": [
+    0,
+    0,
+    0,
+    1,
+    1,
+    7,
+    29,
+    61,
+    103,
+    154,
+    180,
+    191,
+    196,
+    200,
+    200,
+    200,
+    200
+   ],
+   "runsByOffset": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200
+   ],
+   "tippingPoint": -0.12,
+   "ci95": [
+    -0.27,
+    0.06
+   ],
+   "slopePerPoint": 1.06,
+   "widthPoints10to90": 4.15,
+   "interpolatedCrossing": -0.07,
+   "medianDaysToDecide": 315
+  },
+  "1x | scattered eggs | 0.4": {
+   "runs": 3400,
+   "seeds": 200,
+   "undecided": 0,
+   "followedDaysMax": 1500,
+   "tippingPointIfUndecidedTakeOver": -0.02,
+   "tookOverByOffset": [
+    0,
+    0,
+    0,
+    0,
+    1,
+    6,
+    29,
+    43,
+    103,
+    146,
+    182,
+    195,
+    199,
+    200,
+    200,
+    200,
+    200
+   ],
+   "runsByOffset": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200
+   ],
+   "tippingPoint": -0.02,
+   "ci95": [
+    -0.16,
+    0.12
+   ],
+   "slopePerPoint": 1.15,
+   "widthPoints10to90": 3.82,
+   "interpolatedCrossing": -0.05,
+   "medianDaysToDecide": 258
+  }
+ },
+ "differences": {
+  "1x, cost 0.1: as published minus scattered eggs": {
+   "estimate": -4.28,
+   "ci95": [
+    -4.51,
+    -4.05
+   ]
+  },
+  "1x, cost 0.1: as published minus random container": {
+   "estimate": -3.85,
+   "ci95": [
+    -4.11,
+    -3.62
+   ]
+  },
+  "1x, cost 0.1: random container minus scattered eggs": {
+   "estimate": -0.43,
+   "ci95": [
+    -0.64,
+    -0.21
+   ]
+  },
+  "1x, cost 0.1: shared crowding minus as published": {
+   "estimate": 5.77,
+   "ci95": [
+    5.54,
+    6.02
+   ]
+  },
+  "1x, cost 0.25: as published minus scattered eggs": {
+   "estimate": -4.61,
+   "ci95": [
+    -4.88,
+    -4.37
+   ]
+  },
+  "1x, cost 0.25: as published minus random container": {
+   "estimate": -3.7,
+   "ci95": [
+    -3.94,
+    -3.46
+   ]
+  },
+  "1x, cost 0.25: random container minus scattered eggs": {
+   "estimate": -0.91,
+   "ci95": [
+    -1.14,
+    -0.69
+   ]
+  },
+  "1x, cost 0.25: shared crowding minus as published": {
+   "estimate": 8.04,
+   "ci95": [
+    7.79,
+    8.3
+   ]
+  },
+  "1x, cost 0.4: as published minus scattered eggs": {
+   "estimate": -1.86,
+   "ci95": [
+    -2.09,
+    -1.63
+   ]
+  },
+  "1x, cost 0.4: as published minus random container": {
+   "estimate": -0.52,
+   "ci95": [
+    -0.76,
+    -0.29
+   ]
+  },
+  "1x, cost 0.4: random container minus scattered eggs": {
+   "estimate": -1.34,
+   "ci95": [
+    -1.56,
+    -1.13
+   ]
+  },
+  "1x, cost 0.4: shared crowding minus as published": {
+   "estimate": 6.68,
+   "ci95": [
+    6.4,
+    6.94
+   ]
+  }
+ }
+}

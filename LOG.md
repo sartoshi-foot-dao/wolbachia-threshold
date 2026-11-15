@@ -2,6 +2,18 @@
 
 Newest first. Each entry: problem, rival answers, decisive test, result, what it rules out. Earlier work (before this repository existed) is summarised from the blog post's changelog; the scripts are in `check/`.
 
+## 2026-11-15 — Step 2, base population: the shifts are real, and larger than published
+
+- **Problem.** The published shifts (−3.3/−3.7/−1.7 points at egg costs 10/25/40%) came from 20 runs a point at 2-point spacing. Kill criterion 2 asks whether they survive 200+ runs.
+- **Rivals.** (a) Real and about that size. (b) Noise. (c) Real, but mis-sized by how runs were judged.
+- **Test.** [`experiments/2026-11-15-tipping-points-200-seeds/`](experiments/2026-11-15-tipping-points-200-seeds/): 4 variants × 3 costs × 17 starting shares (1-point spacing) × 200 seeds = 40,800 runs on ser5; logistic fit; bootstrap over seeds. The 697 runs undecided at day 1,500 were rerun to day 6,000.
+- **Result.** As published: −4.23 [−4.42, −4.07], −4.73 [−4.92, −4.55], −1.88 [−2.06, −1.69]. Every egg scattered: +0.05, −0.12, −0.02, all within 0.3 of the formula. Whole clutch to a random container: −0.38, −1.03, −1.36. Shared crowding: +1.54, +3.31, +4.80. At 40% as published, 199 of 3,400 runs are still undecided at day 6,000; counting them as take-overs gives −2.88.
+- **Rules out.** (b): kill criterion 2 is not met at any cost. Supports (c): the day-1,500 cut-off with undecided counted as failures understated the shift by 0.3 to 0.9 points (same data cut at 1,500: −3.96/−3.88/−1.46). The smaller 40% shift is real.
+- **New observation.** At 40% cost near the tipping point, runs hold intermediate infected shares for thousands of days. This is probably the stalled-wave behaviour from 2026-11-12 showing up at scale; it makes "the tipping point" a range there.
+- **Not done.** 4× population (as published and scattered eggs, 200 seeds) was started in the same ser5 container, `wolbachia-step2`, writing `raw-4x.jsonl` in the job folder; about an hour. 16× not started. Issue 2 stays open for those.
+- **Criticism pass.** Claude Opus reviewed scripts and claims and reran parts (details in the experiment README). Holds: the shift at 10% and 25%, and kill criterion 2 not met. Caveats: the 40% undecided runs look stuck (stable coexistence), so 40% may be a different regime and its interval is too narrow; curve choice moves points by 0.2 to 0.45; scattered eggs also removes mating patches, so it is not a crowding-only control; a 40-seed test hints the result depends on map size (8 take-overs at 1× against 2 at 4× at −6 points, 10% cost).
+- Reported publicly on the idea page (blog commit `cb2263a`).
+
 ## 2026-11-14 — Repository made private; charter drafted
 
 zi: "I plan for my private agents to collaborate", so the repository is now private. Public links to it were removed from the blog (`20a6175`); results still reach the public through the post and the idea page. Drafted [`CHARTER.md`](CHARTER.md): purpose, scope, kill criteria, budget, decision rights, review points, authorship. Six items are OPEN for zi, each with a proposed default that agents work to until zi decides.

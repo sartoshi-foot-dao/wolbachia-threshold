@@ -2,3 +2,6 @@ node_modules/
 runs/
 *.raw.json
 .DS_Store
+raw-*.jsonl
+rerun-*.jsonl
+*progress*.txt
