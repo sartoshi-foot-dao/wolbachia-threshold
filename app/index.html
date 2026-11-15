@@ -1,0 +1,485 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Wolbachia Sweep</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap">
+<style>
+/* Layout: a field bench. Street map as the instrument, release controls beside it, readings underneath.
+   Colour: the magazine's oxblood marks the bacterium, cool slate marks wild mosquitoes, on blue-white paper. */
+:root{--bg:#f4f6f8;--panel:#fbfcfd;--fg:#1b2328;--muted:#5b6871;--line:#cdd5db;--map:#e9edf0;--block:#dde3e7;--site:#a9b5bd;
+  --inf:#a81f2d;--wild:#35586a;--tint:#a81f2d14;--good:#1d6b4f;--warn:#96590b;
+  --display:"Source Serif 4",Georgia,serif;--sans:"IBM Plex Sans",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12171b;--panel:#182026;--fg:#e6ebee;--muted:#98a6af;--line:#303c44;--map:#1a2228;--block:#222c33;--site:#4f5e68;--inf:#ff6673;--wild:#8db7ca;--tint:#ff667318;--good:#62c49c;--warn:#e0a653;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12171b;--panel:#182026;--fg:#e6ebee;--muted:#98a6af;--line:#303c44;--map:#1a2228;--block:#222c33;--site:#4f5e68;--inf:#ff6673;--wild:#8db7ca;--tint:#ff667318;--good:#62c49c;--warn:#e0a653;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:15px/1.5 var(--sans);margin:0}
+.wrap{max-width:1240px;margin:0 auto;padding-block:22px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:18px}
+header{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:baseline}
+h1{font:600 30px/1.15 var(--display);margin:0;letter-spacing:-.01em}
+header p{margin:0;color:var(--muted);flex:1 1 320px;min-width:0}
+h2{font:600 19px/1.25 var(--display);margin:0;text-wrap:balance}
+.lab{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.presets{display:flex;flex-wrap:wrap;gap:6px}
+button{font:500 13.5px/1 var(--sans);color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:3px;padding:9px 12px;cursor:pointer}
+button:hover{border-color:var(--fg)}
+button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+:focus-visible{outline:2px solid var(--inf);outline-offset:2px}
+.bench{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(270px,1fr);gap:18px;align-items:start}
+.mapcol{display:grid;gap:8px;min-width:0}
+.reads{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:end}
+.read b{display:block;font:500 25px/1.1 var(--mono);font-variant-numeric:tabular-nums}
+.read .i{color:var(--inf)}.read .w{color:var(--wild)}
+.statusline{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;min-height:28px}
+.pill{font-size:13.5px;font-weight:600;padding:4px 9px;border:1.5px solid currentColor;border-radius:3px}
+.pill.up{color:var(--inf)}.pill.down{color:var(--wild)}.pill.ok{color:var(--good)}.pill.warn{color:var(--warn)}
+.day{font:500 13.5px var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+#map{display:block;width:100%;aspect-ratio:1000/640;max-width:100%;border:1px solid var(--line);cursor:crosshair;touch-action:manipulation}
+.key{display:flex;flex-wrap:wrap;gap:4px 16px;color:var(--muted);font-size:13px;align-items:center}
+.key i{display:inline-block;vertical-align:middle;margin-right:5px;border-radius:50%}
+.side{display:grid;gap:15px;background:var(--panel);border:1px solid var(--line);padding:15px;min-width:0}
+.transport{display:flex;flex-wrap:wrap;gap:6px}
+.transport #play{min-width:74px}
+fieldset{border:0;margin:0;padding:0;display:grid;gap:11px;min-width:0}
+legend{padding:0;margin-bottom:9px}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:0}
+.seg button{border-radius:0;margin-left:-1px;padding:8px 4px}
+.seg button:first-child{margin-left:0}
+.ctl label{display:flex;justify-content:space-between;gap:8px;font-size:13.5px}
+.ctl output{font:500 13px var(--mono);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;margin:3px 0 0;accent-color:var(--inf)}
+.hint{font-size:12.5px;color:var(--muted);margin:0}
+.log{list-style:none;margin:0;padding:0;font-size:13px;display:grid;gap:3px;min-height:70px}
+.log span{font:500 12.5px var(--mono);color:var(--muted);display:inline-block;min-width:60px}
+.grid2{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:18px}
+.card{background:var(--panel);border:1px solid var(--line);padding:15px;display:grid;gap:9px;min-width:0;align-content:start}
+.card canvas{display:block;width:100%;height:290px}
+.legend{display:flex;flex-wrap:wrap;gap:3px 14px;font-size:12.5px;color:var(--muted)}
+.legend s{display:inline-block;width:20px;height:0;border-top:2.5px solid;vertical-align:middle;margin-right:5px;text-decoration:none}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:340px;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}
+th{font-weight:500;color:var(--muted);font-size:12.5px}
+td b{display:block;font-weight:600}
+td em{font:500 12.5px var(--mono);font-style:normal;color:var(--muted);font-variant-numeric:tabular-nums}
+td.fail{background:var(--tint)}td.fail b{color:var(--inf)}
+.notes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 34px}
+.notes p{margin:7px 0 0;max-width:66ch}
+.notes a{color:var(--inf)}
+/* Embedded in the blog post (?embed): map and scenarios only, full page one click away */
+html.embed .wrap{padding-block:12px;gap:12px}
+html.embed header,html.embed .grid2,html.embed .notes,html.embed .side fieldset,html.embed .side .runlog{display:none}
+html.embed .bench{grid-template-columns:minmax(0,1fr)}
+html.embed .side{background:none;border:0;padding:0;order:-1}
+html.embed .transport{align-items:center}
+.full{display:none;font-size:13.5px;color:var(--inf);margin-left:auto;align-self:center}
+html.embed .full{display:inline}
+@media (max-width:900px){.bench,.grid2,.notes{grid-template-columns:minmax(0,1fr)}.reads{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+<div class="wrap">
+<header><h1>Wolbachia Sweep</h1><p>Release mosquitoes carrying the bacterium, then see whether it takes over the street or dies out.</p></header>
+<div class="presets" id="presets" role="group" aria-label="Scenarios"></div>
+<div class="bench">
+ <div class="mapcol">
+  <div class="reads">
+   <div class="read"><span class="lab">Females infected</span><b class="i" id="rF">0%</b></div>
+   <div class="read"><span class="lab">Males infected</span><b class="i" id="rM">0%</b></div>
+   <div class="read"><span class="lab">Wild females left</span><b class="w" id="rW">100%</b></div>
+   <div class="read"><span class="lab">Tipping point</span><b id="rT">26%</b></div>
+  </div>
+  <div class="statusline"><span class="pill" id="pill" aria-live="polite">Wild baseline</span><span class="day" id="day">Day 0</span></div>
+  <canvas id="map" aria-label="Street map of mosquitoes. Red dots carry Wolbachia, slate dots are wild. Click to release a batch."></canvas>
+  <div class="key"><span><i style="width:7px;height:7px;background:var(--inf)"></i>Infected</span><span><i style="width:7px;height:7px;background:var(--wild)"></i>Wild</span><span>Large dot: female. Small dot: male.</span><span style="color:var(--inf)">&times; eggs that won't hatch</span><span>Click the map to release a batch there.</span></div>
+ </div>
+ <aside class="side">
+  <div class="transport"><button id="play">Pause</button><button id="restart">Restart</button><div class="seg" id="speed" role="group" aria-label="Speed" style="flex:1 1 120px"></div><a class="full" href="./" target="_top">Full simulation, charts and settings &rarr;</a></div>
+  <fieldset><legend class="lab">Release plan (changing it restarts the run)</legend>
+   <div class="seg" id="sexes" role="group" aria-label="Who is released"></div>
+   <div class="seg" id="where" role="group" aria-label="Where to release"></div>
+   <div class="ctl"><label for="pct">Weekly release, as % of wild population <output id="pctO"></output></label><input type="range" id="pct" min="0" max="14" step="1"></div>
+   <div class="ctl"><label for="weeks">Weeks of release <output id="weeksO"></output></label><input type="range" id="weeks" min="1" max="52" step="1"></div>
+  </fieldset>
+  <fieldset><legend class="lab">Strain biology (applies immediately)</legend>
+   <div class="ctl"><label for="sf">Egg cost to infected females <output id="sfO"></output></label><input type="range" id="sf" min="0" max="80" step="1"></div>
+   <div class="ctl"><label for="sh">Wild eggs lost to infected fathers <output id="shO"></output></label><input type="range" id="sh" min="0" max="100" step="1"></div>
+   <div class="ctl"><label for="mu">Eggs that miss the bacterium <output id="muO"></output></label><input type="range" id="mu" min="0" max="20" step="1"></div>
+  </fieldset>
+  <div class="runlog"><span class="lab">Run log</span><ul class="log" id="log"></ul></div>
+ </aside>
+</div>
+<div class="grid2">
+ <section class="card"><h2>Who carries it, and who is left</h2>
+  <div class="legend"><span><s style="border-color:var(--inf)"></s>Females infected</span><span><s style="border-color:var(--inf);border-top-style:dotted"></s>Males infected</span><span><s style="border-color:var(--wild)"></s>Wild females</span><span><s style="border-color:var(--muted);border-top-width:1.5px"></s>All females</span></div>
+  <canvas id="time" role="img" aria-label="Infected share and female numbers over time"></canvas>
+ </section>
+ <section class="card"><h2>Why there is a tipping point</h2>
+  <p class="hint" id="phaseCap"></p>
+  <canvas id="phase" role="img" aria-label="Change in infected share per generation, against the current share"></canvas>
+ </section>
+</div>
+<div class="grid2">
+ <section class="card"><h2>Who can breed with whom</h2>
+  <p class="hint">Only one of the four crosses fails. Percentages are this run's matings over roughly the last month.</p>
+  <div class="tablewrap"><table>
+   <tr><th></th><th scope="col">Wild male</th><th scope="col">Infected male</th></tr>
+   <tr><th scope="row">Wild female</th><td><b>Wild young</b><em id="m0">0%</em></td><td class="fail"><b>Eggs don't hatch</b><em id="m1">0%</em></td></tr>
+   <tr><th scope="row">Infected female</th><td><b>Infected young</b><em id="m2">0%</em></td><td><b>Infected young</b><em id="m3">0%</em></td></tr>
+  </table></div>
+ </section>
+ <section class="card"><h2>Two strategies, one lever</h2>
+  <p style="margin:0">Both sexes: infected mothers pass the bacterium on, so the street converts and stays converted. Virus-blocking mosquitoes replace wild ones, and female numbers fall only about 10%.</p>
+  <p style="margin:0">Males only: nothing inherits it. The failed eggs thin the wild population only while releases continue, and it rebounds when they stop. In the Singapore trial the article cites, male releases cut mosquitoes by 85% and dengue by roughly 70%.</p>
+ </section>
+</div>
+<div class="notes">
+ <section><h2>Why it saturates</h2>
+  <p>Wolbachia passes only through eggs. An infected male can't transmit it, but his matings with wild females produce eggs that don't hatch. That penalty falls only on wild females, because infected females have viable, infected young with either kind of male.</p>
+  <p>The advantage grows with the infected share, while the egg cost stays fixed. At low share the cost wins and the bacterium fades. Past the tipping point the mating advantage wins, and the share climbs on its own after releases stop.</p>
+ </section>
+ <section><h2>What this model assumes</h2>
+  <p>About 2,600 adults on a 1 km by 640 m street grid. Each day 10% die and the rest wander about 22 m. Females mate once, with a random male within 40 m, and lay every 4 days in the nearest container, where larvae compete for 10 days. Three wild adults a day arrive from the map edge. There are no seasons, insecticides or disease, and released males compete equally.</p>
+  <p>Check against theory: 20 runs were started at each of several shares around the calculated tipping point, for egg costs of 10%, 25% and 40%, and followed until the infection took over or died out. With no wild arrivals, half the runs take over 2 to 4 points below the formula, because crowding inside each breeding container helps the infection more than patchy local mating hurts it. Wild arrivals push it back up by 1 to 3.5 points. The <a href="/wolbachia-tipping-point/">post</a> has the tables, and the <a href="../check/run-checks.mjs">check script</a> reruns them.</p>
+  <p>Mechanism and Singapore results from Maya Rosen, <a href="https://worksinprogress.co/issue/mosquitoes-are-a-choice/">Mosquitoes are a choice</a>, Works in Progress. The article gives no threshold. The default cost is set to match the roughly 25% reported for the wMel strain in <a href="https://academic.oup.com/evlett/article/6/1/92/6697657">Turelli and Barton, 2022</a>. Other values are illustrative.</p>
+  <p>Built by Claude, an AI model made by Anthropic, at Ziding Zhang's request. Write-up and limits: <a href="/wolbachia-tipping-point/">zidingz.com/wolbachia-tipping-point</a>.</p>
+ </section>
+</div>
+</div>
+<script>
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+
+// Frequency recursion for a CI-inducing, maternally inherited symbiont:
+// sf = fecundity cost, sh = share of incompatible eggs lost, mu = eggs that miss the bacterium.
+const Theory={
+  next(p,sf,sh,mu){const W=1-sf*p-sh*p*(1-p)-mu*sh*(1-sf)*p*p;return p*(1-sf)*(1-mu)/W},
+  delta(p,sf,sh,mu){return Theory.next(p,sf,sh,mu)-p},
+  roots(sf,sh,mu){
+    let thr=null,stable=null,prev=Theory.delta(.001,sf,sh,mu);
+    if(prev>0)thr=0;
+    for(let i=2;i<=999;i++){const p=i/1000,d=Theory.delta(p,sf,sh,mu);
+      if(prev<0&&d>=0&&thr===null)thr=p;
+      if(prev>0&&d<=0&&thr!==null&&stable===null)stable=p;
+      prev=d}
+    if(thr!==null&&stable===null)stable=1;
+    return{thr,stable}
+  }
+};
+
+class Sim{
+  constructor(o={}){
+    Object.assign(this,{seed:1,W:1000,H:640,target:2600,sf:.25,sh:1,mu:.01,
+      survive:.9,step_m:22,eggs:8,cycle:4,larvalDays:10,mateR:40,cap:42000,immigrants:3},o);
+    this.rand=mulberry(this.seed);
+    const c=this.cap;
+    this.x=new Float32Array(c);this.y=new Float32Array(c);this.px=new Float32Array(c);this.py=new Float32Array(c);
+    this.sex=new Uint8Array(c);this.inf=new Uint8Array(c);this.mate=new Uint8Array(c);this.age=new Uint16Array(c);this.ph=new Uint8Array(c);
+    this.n=0;this.day=0;this.hist=[];this.sparks=[];this.mat=[0,0,0,0];this.released=0;this.plan=null;this.relCount=0;
+    this.buildCity();
+    this.gw=Math.ceil(this.W/this.mateR);this.gh=Math.ceil(this.H/this.mateR);
+    this.head=new Int32Array(this.gw*this.gh);this.next=new Int32Array(c);
+    const r=this.rand;
+    for(let i=0;i<this.target;i++){const s=this.sites[r()*this.sites.length|0];this.add(s.x+this.g()*30,s.y+this.g()*30,i%2,0,r()*8|0)}
+    for(let i=0;i<150;i++)this.step(true);
+    let a=0;for(let i=0;i<40;i++){this.step(true);a+=this.count().af}
+    this.F0=a/40;this.day=0;this.hist=[];this.sparks=[];this.mat=[0,0,0,0];
+    this.record();
+  }
+  g(){return Math.sqrt(-2*Math.log(1-this.rand()))*Math.cos(6.2832*this.rand())}
+  pois(m){if(m<=0)return 0;const L=Math.exp(-m);let k=0,p=1;do{k++;p*=this.rand()}while(p>L);return k-1}
+  binom(n,p){if(n<=0||p<=0)return 0;if(p>=1)return n;
+    if(n<40){let k=0;for(let i=0;i<n;i++)if(this.rand()<p)k++;return k}
+    const k=Math.round(n*p+this.g()*Math.sqrt(n*p*(1-p)));return k<0?0:k>n?n:k}
+  buildCity(){
+    const r=this.rand,xs=[0],ys=[0];
+    while(xs[xs.length-1]<this.W)xs.push(xs[xs.length-1]+95+r()*45);
+    while(ys[ys.length-1]<this.H)ys.push(ys[ys.length-1]+70+r()*30);
+    this.blocks=[];this.sites=[];
+    for(let i=0;i<xs.length-1;i++)for(let j=0;j<ys.length-1;j++){
+      const b={x:xs[i]+6,y:ys[j]+6,w:xs[i+1]-xs[i]-12,h:ys[j+1]-ys[j]-12};this.blocks.push(b);
+      const n=2+(r()*3|0);
+      for(let k=0;k<n;k++)this.sites.push({x:b.x+r()*b.w,y:b.y+r()*b.h,K:.4+r()*1.6,L:0,w:new Int32Array(this.larvalDays),i:new Int32Array(this.larvalDays)})
+    }
+    const sum=this.sites.reduce((a,s)=>a+s.K,0),scale=this.target*1.25/sum;
+    for(const s of this.sites)s.K*=scale;
+    this.lw=Math.ceil(this.W/25);this.lh=Math.ceil(this.H/25);this.near=new Int32Array(this.lw*this.lh);
+    for(let a=0;a<this.lw;a++)for(let b=0;b<this.lh;b++){
+      let best=0,bd=1e12,X=a*25+12,Y=b*25+12;
+      this.sites.forEach((s,i)=>{const d=(s.x-X)**2+(s.y-Y)**2;if(d<bd){bd=d;best=i}});
+      this.near[a+b*this.lw]=best}
+  }
+  add(x,y,sex,inf,age=0){
+    if(this.n>=this.cap)return;
+    x=Math.min(this.W-1,Math.max(0,x));y=Math.min(this.H-1,Math.max(0,y));
+    const i=this.n++;this.x[i]=this.px[i]=x;this.y[i]=this.py[i]=y;this.sex[i]=sex;this.inf[i]=inf;this.mate[i]=0;this.age[i]=age;this.ph[i]=this.rand()*this.cycle|0;
+  }
+  kill(i){const l=--this.n;if(i===l)return;
+    this.x[i]=this.x[l];this.y[i]=this.y[l];this.px[i]=this.px[l];this.py[i]=this.py[l];this.sex[i]=this.sex[l];this.inf[i]=this.inf[l];this.mate[i]=this.mate[l];this.age[i]=this.age[l];this.ph[i]=this.ph[l]}
+  // sexes: 'both' or 'males'; area: 'all' or {x,y,r}
+  release(N,sexes,area){
+    const r=this.rand;N=Math.round(N);
+    for(let i=0;i<N;i++){
+      const sex=sexes==='males'?1:i%2;let X,Y;
+      if(area==='all'){const s=this.sites[r()*this.sites.length|0];X=s.x+this.g()*30;Y=s.y+this.g()*30}
+      else{const a=r()*6.2832,d=area.r*Math.sqrt(r());X=area.x+Math.cos(a)*d;Y=area.y+Math.sin(a)*d}
+      this.add(X,Y,sex,1)}
+    this.released+=N;
+  }
+  step(burn){
+    const r=this.rand,p=this.plan;
+    if(p&&!burn&&this.day%7===0&&this.relCount<p.weeks){
+      this.release(p.pct/100*this.F0*2,p.sexes,p.area);this.relCount++;
+      if(this.relCount===p.weeks)this.relEnd=this.day}
+    // survival and movement
+    for(let i=this.n-1;i>=0;i--){
+      if(r()>this.survive){this.kill(i);continue}
+      this.px[i]=this.x[i];this.py[i]=this.y[i];
+      let X=this.x[i]+this.g()*this.step_m,Y=this.y[i]+this.g()*this.step_m;
+      if(X<0)X=-X;if(X>=this.W)X=2*this.W-X-1;if(Y<0)Y=-Y;if(Y>=this.H)Y=2*this.H-Y-1;
+      // positions are stored as 32-bit floats, which can round 999.99998 up to 1000, off the map
+      if(X<0)X=0;if(Y<0)Y=0;if(Math.fround(X)>=this.W)X=this.W-.001;if(Math.fround(Y)>=this.H)Y=this.H-.001;
+      this.x[i]=X;this.y[i]=Y;this.age[i]++}
+    // a trickle of wild adults arrives from outside the map
+    for(let k=0;k<this.immigrants;k++){const e=r()*4|0,t=r();this.add(e===0?2:e===1?this.W-3:t*this.W,e===2?2:e===3?this.H-3:t*this.H,k%2,0,3)}
+    // index males
+    this.head.fill(-1);
+    for(let i=0;i<this.n;i++)if(this.sex[i]===1){const c=(this.x[i]/this.mateR|0)+(this.y[i]/this.mateR|0)*this.gw;this.next[i]=this.head[c];this.head[c]=i}
+    for(let k=0;k<4;k++)this.mat[k]*=.967;
+    const R2=this.mateR*this.mateR;
+    for(let i=0;i<this.n;i++){
+      if(this.sex[i]!==0)continue;
+      const fi=this.inf[i];
+      if(!this.mate[i]){ // females mate once, with a random male within range
+        const cx=this.x[i]/this.mateR|0,cy=this.y[i]/this.mateR|0;let seen=0,pick=-1;
+        for(let a=Math.max(0,cx-1);a<=Math.min(this.gw-1,cx+1);a++)for(let b=Math.max(0,cy-1);b<=Math.min(this.gh-1,cy+1);b++)
+          for(let m=this.head[a+b*this.gw];m!==-1;m=this.next[m]){
+            const dx=this.x[m]-this.x[i],dy=this.y[m]-this.y[i];
+            if(dx*dx+dy*dy<R2&&r()*++seen<1)pick=m}
+        if(pick>=0){this.mate[i]=1+this.inf[pick];this.mat[fi*2+this.inf[pick]]++}
+      }
+      if(this.mate[i]&&this.age[i]>=2&&(this.age[i]+this.ph[i])%this.cycle===0){
+        const mi=this.mate[i]-1,E=this.pois(this.eggs*(fi?1-this.sf:1));
+        let I=0,U=0,lost=0;
+        if(fi){I=this.binom(E,1-this.mu);const u=E-I;U=mi?this.binom(u,1-this.sh):u}
+        else if(mi){U=this.binom(E,1-this.sh);lost=E-U}
+        else U=E;
+        const s=this.sites[this.near[(this.x[i]/25|0)+(this.y[i]/25|0)*this.lw]],d=this.day%this.larvalDays;
+        s.w[d]+=U;s.i[d]+=I;s.L+=U+I;
+        if(lost>0&&!burn&&this.sparks.length<160)this.sparks.push({x:this.x[i],y:this.y[i],t:0});
+      }
+    }
+    // larvae that started larvalDays ago emerge, thinned by crowding in their container
+    const d=(this.day+1)%this.larvalDays;
+    for(const s of this.sites){
+      const w=s.w[d],v=s.i[d];
+      if(w+v>0){const sv=1/(1+s.L/s.K),ew=this.binom(w,sv),ei=this.binom(v,sv);
+        for(let k=0;k<ew;k++)this.add(s.x+this.g()*8,s.y+this.g()*8,r()<.5?0:1,0);
+        for(let k=0;k<ei;k++)this.add(s.x+this.g()*8,s.y+this.g()*8,r()<.5?0:1,1);
+        s.L-=w+v;s.w[d]=0;s.i[d]=0}
+    }
+    this.day++;
+    if(!burn)this.record();
+  }
+  count(){let af=0,am=0,fi=0,mi=0;for(let i=0;i<this.n;i++){if(this.sex[i]===0){af++;fi+=this.inf[i]}else{am++;mi+=this.inf[i]}}return{af,am,fi,mi}}
+  record(){const c=this.count();this.cur=c;
+    this.hist.push({d:this.day,pf:c.af?c.fi/c.af:0,pm:c.am?c.mi/c.am:0,fem:c.af/(this.F0||1),wild:(c.af-c.fi)/(this.F0||1)})}
+  // Start every patch with the same share of infected adults (no releases) for threshold tests.
+  seedShare(p){for(let i=0;i<this.n;i++){this.inf[i]=this.rand()<p?1:0;this.mate[i]=0}
+    for(const s of this.sites){for(let k=0;k<this.larvalDays;k++){const t=s.w[k]+s.i[k],v=this.binom(t,p);s.i[k]=v;s.w[k]=t-v}}
+    this.hist=[];this.record()}
+}
+const $=id=>document.getElementById(id);
+const EMBED=new URLSearchParams(location.search).has('embed');
+if(EMBED)document.documentElement.classList.add('embed');
+let userPaused=false;
+const PCTS=[2,5,10,15,20,30,40,60,80,100,150,200,300,400,600];
+const PATCH={x:220,y:320,r:140};
+const PRESETS=[
+ {id:'over',name:'Past the tipping point',sexes:'both',where:'all',pct:20,weeks:8,sf:25,sh:100,mu:1,h:300,seed:3},
+ {id:'under',name:'Release too small',sexes:'both',where:'all',pct:5,weeks:6,sf:25,sh:100,mu:1,h:300,seed:3},
+ {id:'costly',name:'Same release, costly strain',sexes:'both',where:'all',pct:20,weeks:8,sf:60,sh:100,mu:1,h:300,seed:3},
+ {id:'males',name:'Males only',sexes:'males',where:'all',pct:100,weeks:30,sf:25,sh:100,mu:1,h:420,seed:3},
+ {id:'wave',name:'One neighbourhood',sexes:'both',where:'patch',pct:200,weeks:8,sf:25,sh:100,mu:1,h:900,seed:3}];
+const S={preset:'over',sexes:'both',where:'all',pct:20,weeks:8,sf:25,sh:100,mu:1,h:300,seed:3,dps:12,playing:false};
+let sim,acc=0,flags,C={},heatPrev,pulses=[],mapBg=null,lastChart=0,dirty=true;
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function segment(host,opts,get,set){host.innerHTML='';opts.forEach(([v,l])=>{const b=document.createElement('button');b.textContent=l;b.dataset.v=v;b.onclick=()=>set(v);host.append(b)});segment.all.push(()=>[...host.children].forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v==String(get())))))}
+segment.all=[];
+function syncUI(){
+ segment.all.forEach(f=>f());
+ $('pct').value=PCTS.indexOf(S.pct);$('pctO').textContent=S.pct+'%';
+ $('weeks').value=S.weeks;$('weeksO').textContent=S.weeks;
+ $('sf').value=S.sf;$('sfO').textContent=S.sf+'%';$('sh').value=S.sh;$('shO').textContent=S.sh+'%';$('mu').value=S.mu;$('muO').textContent=S.mu+'%';
+ [...$('presets').children].forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===S.preset)));
+ $('play').textContent=S.playing?'Pause':'Play';
+}
+function start(){
+ sim=new Sim({seed:S.seed,sf:S.sf/100,sh:S.sh/100,mu:S.mu/100});
+ sim.plan={pct:S.pct,weeks:S.weeks,sexes:S.sexes,area:S.where==='all'?'all':PATCH};
+ flags={};acc=0;heatPrev=null;pulses=[];$('log').innerHTML='';
+ log('Day 0','Releases begin: '+(S.sexes==='both'?'both sexes':'males only')+', '+(S.where==='all'?'whole map':'one neighbourhood')+'.');
+ mapBg=null;refresh();
+}
+function log(d,t){const li=document.createElement('li');li.innerHTML='<span>'+d+'</span>'+t;$('log').append(li)}
+function roots(){return Theory.roots(sim.sf,sim.sh,sim.mu)}
+function pct(x){return Math.round(x*100)+'%'}
+function refresh(){
+ dirty=true;
+ const h=sim.hist[sim.hist.length-1],r=roots();
+ $('rF').textContent=pct(h.pf);$('rM').textContent=pct(h.pm);$('rW').textContent=pct(h.wild);
+ $('rT').textContent=r.thr===null?'None':pct(r.thr);
+ $('day').textContent='Day '+h.d;
+ const t=sim.mat.reduce((a,b)=>a+b,0)||1;sim.mat.forEach((v,i)=>$('m'+i).textContent=Math.round(v/t*100)+'% of matings');
+ const[cls,txt]=state(h,r);const p=$('pill');p.className='pill '+cls;if(p.textContent!==txt)p.textContent=txt;
+ events(h,r);
+ drawTime();drawPhase();
+}
+function state(h,r){
+ const releasing=sim.relCount<sim.plan.weeks;
+ if(h.d===0)return['down','Wild baseline'];
+ if(sim.cur.fi===0&&sim.cur.mi>0){return h.fem<.5?['ok','Wild females suppressed, nothing inherited']:['warn','Males flooding, nothing inherited']}
+ if(sim.cur.fi===0&&sim.cur.mi===0){return h.fem<.6?['warn','Rebounding, bacterium gone']:['down','Bacterium gone']}
+ if(r.thr===null)return['warn',"This strain can't invade"];
+ if(h.pf>=.9*r.stable)return['ok','Saturated'];
+ if(h.pf>r.thr)return['up',releasing?'Past tipping point, still releasing':'Spreading on its own'];
+ return[releasing?'warn':'down',releasing?'Below tipping point, still releasing':'Below tipping point, fading'];
+}
+function events(h,r){
+ if(!flags.end&&sim.relCount>=sim.plan.weeks){flags.end=1;log('Day '+h.d,'Last release. Females infected: '+pct(h.pf)+'.')}
+ if(flags.end&&!flags.endPassed&&sim.plan.sexes!=='males'){flags.endPassed=1}
+ if(!flags.thr&&r.thr!==null&&h.pf>r.thr&&sim.relCount>0){flags.thr=1;log('Day '+h.d,'Females pass the tipping point.')}
+ if(!flags.sat&&r.stable&&h.pf>=.9*r.stable){flags.sat=1;log('Day '+h.d,'Saturated: '+pct(h.pf)+' of females carry it.')}
+ if(!flags.gone&&flags.end&&sim.cur.fi===0&&sim.cur.mi===0){flags.gone=1;log('Day '+h.d,'No infected adults left.')}
+ if(!flags.low&&sim.plan.sexes==='males'&&h.fem<=.15){flags.low=1;log('Day '+h.d,'Females down '+Math.round((1-h.fem)*100)+'%.')}
+ if(flags.low&&flags.end&&!flags.back&&h.fem>=.8){flags.back=1;log('Day '+h.d,'Females back to '+pct(h.fem)+' of baseline.')}
+}
+function readTokens(){const c=getComputedStyle(document.documentElement);for(const k of['bg','panel','fg','muted','line','map','block','site','inf','wild'])C[k]=c.getPropertyValue('--'+k).trim();mapBg=null;dirty=true}
+function fit(cv){const r=cv.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2),w=Math.max(1,Math.round(r.width*d)),h=Math.max(1,Math.round(r.height*d));if(cv.width!==w||cv.height!==h){cv.width=w;cv.height=h;return true}return false}
+function rgb(hex){const n=parseInt(hex.slice(1),16);return[n>>16&255,n>>8&255,n&255]}
+const heat=document.createElement('canvas');heat.width=25;heat.height=16;
+function buildMap(cv){
+ mapBg=document.createElement('canvas');mapBg.width=cv.width;mapBg.height=cv.height;
+ const c=mapBg.getContext('2d'),k=cv.width/sim.W;
+ c.fillStyle=C.map;c.fillRect(0,0,cv.width,cv.height);c.fillStyle=C.block;
+ for(const b of sim.blocks)c.fillRect(b.x*k,b.y*k,b.w*k,b.h*k);
+ c.strokeStyle=C.site;c.lineWidth=Math.max(1,k*1.2);
+ for(const s of sim.sites){c.beginPath();c.arc(s.x*k,s.y*k,Math.max(1.5,3.2*k),0,7);c.stroke()}
+}
+function drawMap(f){
+ const cv=$('map');if(fit(cv))mapBg=null;if(!mapBg)buildMap(cv);
+ const c=cv.getContext('2d'),k=cv.width/sim.W,d=cv.width/cv.getBoundingClientRect().width;
+ c.drawImage(mapBg,0,0);
+ // infected share, smoothed over 40 m cells
+ const hw=25,hh=16,tot=new Float32Array(hw*hh),inf=new Float32Array(hw*hh);
+ for(let i=0;i<sim.n;i++){const q=(sim.x[i]/40|0)+(sim.y[i]/40|0)*hw;tot[q]++;inf[q]+=sim.inf[i]}
+ if(!heatPrev)heatPrev=new Float32Array(hw*hh);
+ const hc=heat.getContext('2d'),im=hc.createImageData(hw,hh),[R,G,B]=rgb(C.inf);
+ for(let q=0;q<hw*hh;q++){const v=tot[q]?inf[q]/tot[q]:0;heatPrev[q]+=(v-heatPrev[q])*.08;im.data[q*4]=R;im.data[q*4+1]=G;im.data[q*4+2]=B;im.data[q*4+3]=heatPrev[q]*34}
+ hc.putImageData(im,0,0);c.imageSmoothingEnabled=true;c.drawImage(heat,0,0,cv.width,cv.height);
+ if(S.where==='patch'&&sim.relCount<sim.plan.weeks){c.save();c.setLineDash([5*d,5*d]);c.strokeStyle=C.inf;c.lineWidth=1.2*d;c.beginPath();c.arc(PATCH.x*k,PATCH.y*k,PATCH.r*k,0,7);c.stroke();c.restore()}
+ // mosquitoes, interpolated between days
+ const big=Math.max(3,cv.width/d/230)*d,small=big*.6;
+ for(const[inf1,col]of[[0,C.wild],[1,C.inf]]){c.fillStyle=col;c.beginPath();
+  for(let i=0;i<sim.n;i++){if(sim.inf[i]!==inf1)continue;
+   const X=(sim.px[i]+(sim.x[i]-sim.px[i])*f)*k,Y=(sim.py[i]+(sim.y[i]-sim.py[i])*f)*k,z=sim.sex[i]?small:big;
+   c.rect(X-z/2,Y-z/2,z,z)}
+  c.fill()}
+ // failed clutches
+ c.strokeStyle=C.inf;c.lineWidth=1.3*d;
+ for(const s of sim.sparks){const a=1-s.t/10;if(a<=0)continue;c.globalAlpha=a;const X=s.x*k,Y=s.y*k,z=3.6*d;c.beginPath();c.moveTo(X-z,Y-z);c.lineTo(X+z,Y+z);c.moveTo(X+z,Y-z);c.lineTo(X-z,Y+z);c.stroke()}
+ c.globalAlpha=1;
+ pulses=pulses.filter(p=>(p.t+=.03)<1);
+ for(const p of pulses){c.globalAlpha=1-p.t;c.strokeStyle=C.inf;c.lineWidth=2*d;c.beginPath();c.arc(p.x*k,p.y*k,(30+70*p.t)*k,0,7);c.stroke()}
+ c.globalAlpha=1;
+ // scale bar
+ const bx=12*d,by=cv.height-12*d,bl=100*k;c.fillStyle=C.fg;c.fillRect(bx,by,bl,1.5*d);c.font=(11*d)+'px '+getComputedStyle(document.body).getPropertyValue('--mono');c.textBaseline='bottom';c.fillText('100 m',bx,by-3*d);
+}
+function font(d){return (11*d)+'px "IBM Plex Mono",ui-monospace,Menlo,monospace'}
+function drawTime(){
+ const cv=$('time');fit(cv);const c=cv.getContext('2d'),W=cv.width,H=cv.height,d=W/cv.getBoundingClientRect().width;
+ c.clearRect(0,0,W,H);c.font=font(d);
+ const L=44*d,R=10*d,T=8*d,B=22*d,gap=22*d,h1=(H-T-B-gap)*.58,h2=(H-T-B-gap)*.42,y2T=T+h1+gap;
+ const hs=sim.hist,xmax=Math.max(S.h,sim.day),X=v=>L+(W-L-R)*v/xmax,Y1=v=>T+h1*(1-v);
+ let ymax=1.25;for(const q of hs)if(q.fem>ymax)ymax=q.fem;ymax=Math.ceil(ymax*4)/4;const Y2=v=>y2T+h2*(1-v/ymax);
+ // release window
+ const endRel=(sim.relCount>=sim.plan.weeks?sim.relEnd:sim.day);
+ c.fillStyle=C.inf;c.globalAlpha=.08;c.fillRect(X(0),T,Math.max(1,X(endRel)-X(0)),h1);c.fillRect(X(0),y2T,Math.max(1,X(endRel)-X(0)),h2);c.globalAlpha=1;
+ c.fillStyle=C.muted;c.textBaseline='middle';c.textAlign='right';c.strokeStyle=C.line;c.lineWidth=d;
+ for(const v of[0,.5,1]){c.beginPath();c.moveTo(L,Y1(v));c.lineTo(W-R,Y1(v));c.stroke();c.fillText(v*100+'%',L-6*d,Y1(v))}
+ const ticks=ymax>2?[0,1,ymax]:[0,1];
+ for(const v of ticks){c.beginPath();c.moveTo(L,Y2(v));c.lineTo(W-R,Y2(v));c.stroke();c.fillText(Math.round(v*100)+'%',L-6*d,Y2(v))}
+ c.textAlign='center';c.textBaseline='top';
+ const step=xmax<=240?30:xmax<=600?60:xmax<=1000?90:180;
+ for(let t=0;t<=xmax;t+=step)c.fillText(String(t),X(t),H-B+6*d);
+ c.textAlign='left';c.textBaseline='bottom';c.fillStyle=C.muted;
+ c.fillText('share infected',L+5*d,T+13*d);c.fillText('females vs. pre-release; x: days',L+5*d,y2T+13*d);
+ const r=roots();
+ if(r.thr){c.save();c.setLineDash([4*d,4*d]);c.strokeStyle=C.fg;c.beginPath();c.moveTo(L,Y1(r.thr));c.lineTo(W-R,Y1(r.thr));c.stroke();c.restore();c.fillStyle=C.fg;c.textAlign='right';c.textBaseline='bottom';c.fillText('tipping point '+pct(r.thr),W-R-3*d,Y1(r.thr)-2*d)}
+ const line=(key,Y,col,w,dash)=>{c.save();c.strokeStyle=col;c.lineWidth=w*d;c.lineJoin='round';if(dash)c.setLineDash(dash.map(v=>v*d));c.beginPath();const st=Math.max(1,Math.floor(hs.length/1200));for(let i=0;i<hs.length;i+=st){const q=hs[i],a=X(q.d),b=Y(q[key]);i?c.lineTo(a,b):c.moveTo(a,b)}c.stroke();c.restore()};
+ line('pm',Y1,C.inf,1.6,[1.5,3]);line('pf',Y1,C.inf,2.4);
+ line('fem',Y2,C.muted,1.3);line('wild',Y2,C.wild,2.4);
+}
+function drawPhase(){
+ const cv=$('phase');fit(cv);const c=cv.getContext('2d'),W=cv.width,H=cv.height,d=W/cv.getBoundingClientRect().width;
+ c.clearRect(0,0,W,H);c.font=font(d);
+ const L=14*d,R=12*d,T=12*d,B=34*d,sf=sim.sf,sh=sim.sh,mu=sim.mu;let m=.02;const N=200,vals=[];
+ for(let i=0;i<=N;i++){const v=Theory.delta(Math.max(.001,Math.min(.999,i/N)),sf,sh,mu);vals.push(v);if(Math.abs(v)>m)m=Math.abs(v)}
+ m*=1.15;const X=p=>L+(W-L-R)*p,Y=v=>T+(H-T-B)*(.5-v/m/2);
+ c.strokeStyle=C.line;c.lineWidth=d;c.fillStyle=C.muted;c.textAlign='center';c.textBaseline='top';
+ for(const p of[0,.25,.5,.75,1]){c.beginPath();c.moveTo(X(p),T);c.lineTo(X(p),H-B);c.stroke();c.fillText(p*100+'%',Math.max(16*d,Math.min(W-18*d,X(p))),H-B+5*d)}
+ c.fillText('current share infected',W/2,H-B+18*d);
+ c.strokeStyle=C.fg;c.beginPath();c.moveTo(L,Y(0));c.lineTo(W-R,Y(0));c.stroke();
+ c.textAlign='left';c.textBaseline='top';c.fillStyle=C.muted;c.fillText('share rises next generation',L+5*d,T+3*d);c.textBaseline='bottom';c.fillText('share falls',L+5*d,H-B-4*d);
+ for(let i=0;i<N;i++){const v=(vals[i]+vals[i+1])/2;c.strokeStyle=v>=0?C.inf:C.wild;c.lineWidth=2.6*d;c.beginPath();c.moveTo(X(i/N),Y(vals[i]));c.lineTo(X((i+1)/N),Y(vals[i+1]));c.stroke()}
+ const r=roots();
+ if(r.thr){c.fillStyle=C.panel;c.strokeStyle=C.fg;c.lineWidth=2*d;c.beginPath();c.arc(X(r.thr),Y(0),5*d,0,7);c.fill();c.stroke()}
+ if(r.stable){c.fillStyle=C.inf;c.beginPath();c.arc(X(r.stable)-(r.stable===1?1*d:0),Y(0),5*d,0,7);c.fill()}
+ const h=sim.hist[sim.hist.length-1],p=Math.max(.001,Math.min(.999,h.pf)),v=Theory.delta(p,sf,sh,mu);
+ c.fillStyle=C.fg;c.beginPath();c.moveTo(X(p),Y(v)-9*d);c.lineTo(X(p)-5*d,Y(v)-17*d);c.lineTo(X(p)+5*d,Y(v)-17*d);c.fill();
+ const cap=$('phaseCap');let t;
+ if(r.thr===null)t="With these settings the curve never rises above zero, so the bacterium can't hold at any share.";
+ else if(r.thr===0)t='With these settings there is no cost to overcome. Any starting share rises to '+pct(r.stable)+'.';
+ else t='Below '+pct(r.thr)+' the share falls every generation, and above it the share climbs to '+pct(r.stable)+'. The triangle marks this run.';
+ if(cap.textContent!==t)cap.textContent=t;
+}
+let last=0,lastUI=0;
+function frame(ts){
+ const dt=Math.min(.1,(ts-last)/1000||0);last=ts;
+ if(S.playing){acc+=dt*S.dps;let stepped=false;
+  while(acc>=1){acc-=1;sim.step();stepped=true;for(const s of sim.sparks)s.t+=1;sim.sparks=sim.sparks.filter(s=>s.t<10);
+   const q=sim.hist[sim.hist.length-1];events(q,roots())}
+  if(sim.day>=S.h){S.playing=false;S.h=Math.max(S.h,sim.day);syncUI()}
+  if(stepped&&ts-lastUI>200){lastUI=ts;refresh()}
+ }
+ // redraw only while running or when something changed; a paused or off-screen map costs nothing
+ if(S.playing||dirty||pulses.length){drawMap(S.playing?Math.min(1,acc):1);dirty=false}
+ requestAnimationFrame(frame);
+}
+function resetTo(p){Object.assign(S,p);S.preset=p.id||S.preset;start();S.playing=!reduce;syncUI()}
+function init(){
+ PRESETS.forEach(p=>{const b=document.createElement('button');b.textContent=p.name;b.dataset.v=p.id;b.onclick=()=>resetTo(p);$('presets').append(b)});
+ const plan=()=>{S.preset=null;S.h=Math.max(S.h,S.weeks*7+120);start();S.playing=!reduce;syncUI()};
+ segment($('speed'),[[5,'Slow'],[12,'Normal'],[30,'Fast']],()=>S.dps,v=>{S.dps=+v;syncUI()});
+ segment($('sexes'),[['both','Both sexes'],['males','Males only']],()=>S.sexes,v=>{S.sexes=v;plan()});
+ segment($('where'),[['all','Whole map'],['patch','One patch']],()=>S.where,v=>{S.where=v;plan()});
+ $('pct').oninput=e=>{S.pct=PCTS[+e.target.value];plan()};
+ $('weeks').oninput=e=>{S.weeks=+e.target.value;plan()};
+ for(const k of['sf','sh','mu'])$(k).oninput=e=>{S[k]=+e.target.value;sim[k]=S[k]/100;S.preset=null;syncUI();refresh()};
+ $('play').onclick=()=>{if(!S.playing&&sim.day>=S.h)S.h=sim.day+180;S.playing=!S.playing;userPaused=!S.playing;syncUI()};
+ $('restart').onclick=()=>{S.seed=(S.seed*31+7)%100000;start();S.playing=!reduce;syncUI()};
+ $('map').onclick=e=>{const r=e.currentTarget.getBoundingClientRect(),x=(e.clientX-r.left)/r.width*sim.W,y=(e.clientY-r.top)/r.height*sim.H;
+  sim.release(sim.F0*.25,S.sexes,{x,y,r:60});pulses.push({x,y,t:0});log('Day '+sim.day,'Extra batch released by hand.');refresh()};
+ readTokens();
+ matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{readTokens();refresh()});
+ new MutationObserver(()=>{readTokens();refresh()}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+ new ResizeObserver(()=>{if(sim){mapBg=null;refresh()}}).observe(document.body);
+ start();S.playing=!reduce&&!EMBED;syncUI();requestAnimationFrame(frame);
+ if(EMBED){
+  // size the post's iframe to fit, and only run while the reader can see it
+  const fitFrame=()=>{try{const f=window.frameElement;if(f){const h=Math.ceil(document.querySelector('.wrap').getBoundingClientRect().height);if(Math.abs(f.offsetHeight-h)>2)f.style.height=h+'px'}}catch(e){}};
+  new ResizeObserver(fitFrame).observe(document.querySelector('.wrap'));fitFrame();
+  if('IntersectionObserver' in window)new IntersectionObserver(es=>{const v=es[0].isIntersecting;if(v&&!userPaused&&!reduce&&sim.day<S.h)S.playing=true;if(!v)S.playing=false;syncUI()},{threshold:.35}).observe($('map'));
+ }
+}
+init();
+</script>
+
+</body></html>
