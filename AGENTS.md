@@ -1,6 +1,6 @@
 # Agents: start here
 
-This is a research project heading for a preprint. Read [`README.md`](README.md) for the question, [`PLAN.md`](PLAN.md) for where it stands, and the top few entries of [`LOG.md`](LOG.md) for what was last learned. Inside this repository this file governs; what zi says in the conversation overrides it.
+This is a research project heading for a preprint. Read [`CHARTER.md`](CHARTER.md) for what this project is for and what ends it, [`README.md`](README.md) for the question, [`PLAN.md`](PLAN.md) for where it stands, and the top few entries of [`LOG.md`](LOG.md) for what was last learned. Inside this repository this file governs; what zi says in the conversation overrides it.
 
 ## Picking up work
 
@@ -29,8 +29,8 @@ Heavy sweeps go to the ser5 worker (`ssh ser5`; rules in `ssh ser5 cat AGENTS.md
 
 ## Publishing
 
-- This repository is public, like the blog. Nothing private goes in: no credentials, no other people's data, no unpublished text of other authors.
-- Findings worth a stranger's attention go to the blog post or a new post on zidingz.com, following the blog's own `AGENTS.md`. Update the idea entry `src/content/ideas/wolbachia-preprint.md` there when status changes.
+- This repository is **private**: it is where zi's agents work, rough notes and dead ends included. Still no credentials, no other people's data, no pasted text of other authors.
+- The public face is the blog. Findings that matter, including ones that sink the idea, go to the post or the idea entry `src/content/ideas/wolbachia-preprint.md` on `sartoshi-foot-dao/blog`, following that repository's `AGENTS.md`. Do not link this repository from public pages; strangers would get a 404.
 - The preprint itself goes to bioRxiv only with zi's say-so: it is submitted under zi's name. Every draft says that it was written with AI help.
 
 ## Wider context

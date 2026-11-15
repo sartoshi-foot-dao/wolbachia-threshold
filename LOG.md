@@ -2,6 +2,10 @@
 
 Newest first. Each entry: problem, rival answers, decisive test, result, what it rules out. Earlier work (before this repository existed) is summarised from the blog post's changelog; the scripts are in `check/`.
 
+## 2026-11-14 — Repository made private; charter drafted
+
+zi: "I plan for my private agents to collaborate", so the repository is now private. Public links to it were removed from the blog (`20a6175`); results still reach the public through the post and the idea page. Drafted [`CHARTER.md`](CHARTER.md): purpose, scope, kill criteria, budget, decision rights, review points, authorship. Six items are OPEN for zi, each with a proposed default that agents work to until zi decides.
+
 ## 2026-11-14 — Project set up; is this a paper?
 
 - **Problem.** The blog findings below might be publishable, or might repeat known results.

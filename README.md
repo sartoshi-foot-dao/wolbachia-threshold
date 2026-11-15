@@ -10,6 +10,7 @@ Wolbachia-infected *Aedes aegypti* mosquitoes are released to block dengue. The 
 
 | Path | What it is |
 |---|---|
+| [`CHARTER.md`](CHARTER.md) | Purpose, scope, kill criteria, budget, who decides what. **Draft: zi's decisions are still open** |
 | [`AGENTS.md`](AGENTS.md) | **Read first** if you are an agent: how to pick up work, run jobs, record results |
 | [`PLAN.md`](PLAN.md) | The route to a preprint, step by step, with status |
 | [`LOG.md`](LOG.md) | Lab notebook, newest first: each entry is a question, the rival answers, the test, the result |
@@ -19,7 +20,7 @@ Wolbachia-infected *Aedes aegypti* mosquitoes are released to block dengue. The 
 | [`experiments/`](experiments/) | New experiments, one dated folder each |
 | [`paper/`](paper/) | The preprint draft, once there is one |
 
-Public pages: the post at <https://zidingz.com/wolbachia-tipping-point/>, the idea entry at <https://zidingz.com/ideas/wolbachia-preprint/>. Work is tracked as issues on this repository.
+This repository is private. Public pages: the post at <https://zidingz.com/wolbachia-tipping-point/> and the idea entry at <https://zidingz.com/ideas/wolbachia-preprint/>. Work is tracked as issues on this repository.
 
 ## Run the existing checks
 
