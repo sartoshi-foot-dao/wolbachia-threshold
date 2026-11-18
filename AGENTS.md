@@ -29,8 +29,8 @@ Heavy sweeps go to the ser5 worker (`ssh ser5`; rules in `ssh ser5 cat AGENTS.md
 
 ## Publishing
 
-- This repository is **private**: it is where zi's agents work, rough notes and dead ends included. Still no credentials, no other people's data, no pasted text of other authors.
-- The public face is the blog. Findings that matter, including ones that sink the idea, go to the post or the idea entry `src/content/ideas/wolbachia-preprint.md` on `sartoshi-foot-dao/blog`, following that repository's `AGENTS.md`. Do not link this repository from public pages; strangers would get a 404.
+- This repository is **public and open source** (zi, 2026-11-17: "yes, open source it"). Everything you commit, issue comments included, is visible to anyone. Work in the open, rough notes and dead ends included, but never commit credentials, machine addresses, personal paths, other people's data, or pasted text of other authors. Raw run outputs stay on ser5.
+- The public face is the blog. Findings that matter, including ones that sink the idea, go to the post or the idea entry `src/content/ideas/wolbachia-preprint.md` on `sartoshi-foot-dao/blog`, following that repository's `AGENTS.md`. Public pages may link here.
 - The preprint itself goes to bioRxiv only with zi's say-so: it is submitted under zi's name. Every draft says that it was written with AI help.
 
 ## Wider context

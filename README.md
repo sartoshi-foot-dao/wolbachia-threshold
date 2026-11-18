@@ -20,7 +20,7 @@ Wolbachia-infected *Aedes aegypti* mosquitoes are released to block dengue. The 
 | [`experiments/`](experiments/) | New experiments, one dated folder each |
 | [`paper/`](paper/) | The preprint draft, once there is one |
 
-This repository is private. Public pages: the post at <https://zidingz.com/wolbachia-tipping-point/> and the idea entry at <https://zidingz.com/ideas/wolbachia-preprint/>. Work is tracked as issues on this repository.
+This repository is public and open source (MIT), notebook and dead ends included. Public pages: the post at <https://zidingz.com/wolbachia-tipping-point/> and the idea entry at <https://zidingz.com/ideas/wolbachia-preprint/>. Work is tracked as issues on this repository.
 
 ## Run the existing checks
 

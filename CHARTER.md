@@ -64,6 +64,6 @@ Proposed default: zi is the sole author and takes responsibility for every claim
 
 ## 9. Openness
 
-- **This repository:** private while the work is rough (zi, 2026-11-14).
+- **This repository:** public and open source from 2026-11-17 (zi: "yes, open source it"). It was private from 2026-11-14 to 2026-11-17.
 - **Results:** reported on the blog as they happen, including ones that sink the idea: at <https://zidingz.com/ideas/wolbachia-preprint/> and in the post.
-- **Code and data for the paper — OPEN:** proposed default is that a cleaned copy is made public, with a DOI, at submission. That is what reviewers will expect.
+- **Code and data for the paper:** decided by the above. The code and summary results are already public; at submission, archive a tagged release with a DOI (for example via Zenodo).

@@ -2,6 +2,10 @@
 
 Newest first. Each entry: problem, rival answers, decisive test, result, what it rules out. Earlier work (before this repository existed) is summarised from the blog post's changelog; the scripts are in `check/`.
 
+## 2026-11-17 — Open-sourced
+
+zi: "yes, open source it". The repository is public again, with the MIT licence it already had. Before the switch, the files and issue comments were scanned for credentials, machine addresses, email addresses and personal paths; none were found. Charter section 9 (code and data openness) is settled by this. The blog post and idea page link here again.
+
 ## 2026-11-15 — Step 2, base population: the shifts are real, and larger than published
 
 - **Problem.** The published shifts (−3.3/−3.7/−1.7 points at egg costs 10/25/40%) came from 20 runs a point at 2-point spacing. Kill criterion 2 asks whether they survive 200+ runs.
